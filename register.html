@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Register | groupkku</title>
+  <title>Register | Nibba Group</title>
   <style>
     body {
       font-family: Arial;
@@ -10,7 +10,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: red;
     }
     .box {
       background: rgb(7, 255, 193);
@@ -53,18 +52,16 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBR_3DSXlh215iLcAkyd1Vm9OsGS5RpfgQ",
-    authDomain: "myfirstapp-91308.firebaseapp.com",
-    projectId: "myfirstapp-91308",
-    storageBucket: "myfirstapp-91308.appspot.com",
-    messagingSenderId: "667373262842",
-    appId: "1:667373262842:web:55331d04cca9b1ce9f3643"
+    apiKey: "AIzaSyBR5SrB2txlqbijx8f1vH9mfzBR8wf7KfI",
+    authDomain: "nibbas-group.firebaseapp.com",
+    projectId: "nibbas-group",
+    storageBucket: "nibbas-group.firebasestorage.app",
+    messagingSenderId: "1063263065549",
+    appId: "1:1063263065549:web:a2e24e79e38e62100ca084"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -73,33 +70,42 @@
 
   window.registerUser = async () => {
     try {
-      const fullName = document.getElementById("fullName").value;
-      const age = document.getElementById("userAge").value;
-      const phone = document.getElementById("userPhone").value;
-      const referenceNo = document.getElementById("referenceNo").value;
-      const email = document.getElementById("userEmail").value;
-      const password = document.getElementById("userPassword").value;
+      const fullName = fullNameInput.value;
+    } catch {}
+  };
 
-      if (!fullName || !email || !password) {
-        alert("Please fill all required fields");
+  const fullNameInput = document.getElementById("fullName");
+  const ageInput = document.getElementById("userAge");
+  const phoneInput = document.getElementById("userPhone");
+  const referenceInput = document.getElementById("referenceNo");
+  const emailInput = document.getElementById("userEmail");
+  const passwordInput = document.getElementById("userPassword");
+
+  window.registerUser = async () => {
+    try {
+      if (!fullNameInput.value || !emailInput.value || !passwordInput.value) {
+        alert("Please fill required fields");
         return;
       }
 
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
 
       await setDoc(doc(db, "users", cred.user.uid), {
-        name: fullName,
-        age: Number(age),
-        phone: phone,
-        referenceNumber: referenceNo,
-        email: email,
+        name: fullNameInput.value,
+        age: Number(ageInput.value),
+        phone: phoneInput.value,
+        referenceNumber: referenceInput.value,
+        email: emailInput.value,
         role: "member",
         createdAt: new Date()
       });
 
-      alert("🎉 Registration successful! Welcome to Nibba's Group 🤝");
-
-      location.href = "login.html";
+      alert("🎉 Registration successful!");
+      location.href = "welcome.html";
 
     } catch (e) {
       alert(e.message);

@@ -10,7 +10,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: rgb(0, 234, 255);
+      color: cyan;
     }
     .box {
       background: rgba(70, 253, 4, 0.15);
@@ -42,12 +42,12 @@
 <div class="box">
   <h2>HEY Nibba Login</h2>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <input id="loginEmail" type="email" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Password">
 
   <button onclick="loginUser()">Login</button>
 
-  <button onclick="resetPassword()" style="background:rgb(235, 6, 6);color:#4209ff">
+  <button onclick="resetPassword()" style="background:red;color:white">
     Reset Password
   </button>
 </div>
@@ -74,7 +74,10 @@
 
   window.loginUser = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email.value, password.value);
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful 😎");
       location.href = "dashboard.html";
     } catch (e) {
@@ -83,11 +86,12 @@
   };
 
   window.resetPassword = async () => {
-    if (!email.value) {
+    const email = document.getElementById("loginEmail").value;
+    if (!email) {
       alert("Enter email first");
       return;
     }
-    await sendPasswordResetEmail(auth, email.value);
+    await sendPasswordResetEmail(auth, email);
     alert("Password reset email sent 📩");
   };
 </script>

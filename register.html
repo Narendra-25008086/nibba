@@ -10,7 +10,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: rgb(255, 2, 2);
+      color: red;
     }
     .box {
       background: rgb(7, 255, 193);
@@ -41,12 +41,12 @@
 <div class="box">
   <h2>NIBBA's GROUP Register</h2>
 
-  <input id="name" placeholder="Full Name">
-  <input id="age" type="number" placeholder="Age">
-  <input id="phone" placeholder="Phone Number">
-  <input id="ref" placeholder="Reference Number">
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <input id="fullName" placeholder="Full Name">
+  <input id="userAge" type="number" placeholder="Age">
+  <input id="userPhone" placeholder="Phone Number">
+  <input id="referenceNo" placeholder="Reference Number">
+  <input id="userEmail" type="email" placeholder="Email">
+  <input id="userPassword" type="password" placeholder="Password">
 
   <button onclick="registerUser()">Register</button>
 </div>
@@ -73,28 +73,34 @@
 
   window.registerUser = async () => {
     try {
-      const cred = await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+      const fullName = document.getElementById("fullName").value;
+      const age = document.getElementById("userAge").value;
+      const phone = document.getElementById("userPhone").value;
+      const referenceNo = document.getElementById("referenceNo").value;
+      const email = document.getElementById("userEmail").value;
+      const password = document.getElementById("userPassword").value;
+
+      if (!fullName || !email || !password) {
+        alert("Please fill all required fields");
+        return;
+      }
+
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
 
       await setDoc(doc(db, "users", cred.user.uid), {
-        name: name.value,
-        age: age.value,
-        phone: phone.value,
-        referenceNumber: ref.value,
-        email: email.value,
+        name: fullName,
+        age: Number(age),
+        phone: phone,
+        referenceNumber: referenceNo,
+        email: email,
         role: "member",
         createdAt: new Date()
       });
 
-      alert(`🎉 Registration Finished!
-You are now joined in Nibba's Group 🤝
-Leader: Narendra Krishnan KS
-Welcome you 😎🔥`);
+      alert("🎉 Registration successful! Welcome to Nibba's Group 🤝");
 
       location.href = "login.html";
+
     } catch (e) {
       alert(e.message);
     }

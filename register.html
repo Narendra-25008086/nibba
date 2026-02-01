@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register | groupkku</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(135deg,#ffea00,#2a5298);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgb(255, 2, 2);
+    }
+    .box {
+      background: rgb(7, 255, 193);
+      padding: 30px;
+      border-radius: 14px;
+      width: 360px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>NIBBA's GROUP Register</h2>
+
+  <input id="name" placeholder="Full Name">
+  <input id="age" type="number" placeholder="Age">
+  <input id="phone" placeholder="Phone Number">
+  <input id="ref" placeholder="Reference Number">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="registerUser()">Register</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBR_3DSXlh215iLcAkyd1Vm9OsGS5RpfgQ",
+    authDomain: "myfirstapp-91308.firebaseapp.com",
+    projectId: "myfirstapp-91308",
+    storageBucket: "myfirstapp-91308.appspot.com",
+    messagingSenderId: "667373262842",
+    appId: "1:667373262842:web:55331d04cca9b1ce9f3643"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.registerUser = async () => {
+    try {
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+
+      await setDoc(doc(db, "users", cred.user.uid), {
+        name: name.value,
+        age: age.value,
+        phone: phone.value,
+        referenceNumber: ref.value,
+        email: email.value,
+        role: "member",
+        createdAt: new Date()
+      });
+
+      alert(`🎉 Registration Finished!
+You are now joined in Nibba's Group 🤝
+Leader: Narendra Krishnan KS
+Welcome you 😎🔥`);
+
+      location.href = "login.html";
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+</script>
+
+</body>
+</html>
